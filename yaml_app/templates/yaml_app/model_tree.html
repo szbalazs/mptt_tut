@@ -1,0 +1,27 @@
+{% extends 'yaml_app/base.html' %}
+
+{% load static %}
+{% load mptt_tags %}
+
+{% block content %}
+      <div class="card">
+        <div class="card-body">
+          <h2>{{ name }}</h2>
+          <button type="button" id="expand_but" class="btn btn-primary expand-button" onclick="expand_tree()">Expand all</button>
+
+          {% for node, structure in tree|tree_info %}
+            {% if structure.new_level %}<ul {% ifequal node.parent None %}class="myUL"{% else %}class="nested"{% endifequal %}><li>{% else %}</li><li>{% endif %}
+            {% if not node.is_leaf_node %}<span class=caret>{% else %}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{% endif %}<strong>{{ node }}</strong>
+              {% if node.value %}: {{ node.value }} &nbsp;&nbsp; <a href="{% url 'edit_element' pk=node.pk %}"><button type="button" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i></button></a>   {% endif %}
+              {% if not node.is_leaf_node %}</span>{% endif %}&nbsp;<a href="{% url 'delete_element' pk=node.pk %}"><button type="button" class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i></button></a>
+            {% for level in structure.closed_levels %}</li></ul>{% endfor %}
+          {% endfor %}
+          <ul>
+        </div>
+      </div>
+
+
+    <a href="{% url 'model_list' %}">Back to list</a>
+
+    <script type="text/javascript" src="{% static 'yaml_app/tut.js' %}"></script>
+{% endblock %}

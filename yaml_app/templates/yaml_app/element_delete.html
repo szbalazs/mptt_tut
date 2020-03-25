@@ -1,0 +1,12 @@
+{% extends 'yaml_app/base.html' %}
+
+{% block content %}
+  <div class="jumbotron">
+    <form method="post">
+      {% csrf_token %}
+      <h3>Confirm delete YamlElement with key "{{ element.key }}"?</h3>
+      <input type="Submit" value="Yes" class="btn btn-secondary">
+      <a href="{% url 'model_tree' pk=model.pk %}"><button type="button" name="button" class="btn btn-secondary">No</button></a>
+    </form>
+  </div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'yaml_app/base.html' %}
+
+{% block content %}
+  <div class="jumbotron">
+    <h2>Edit element with key {{ yamlelement.key }}</h2>
+
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" value="Update element"  class="btn btn-secondary">
+      <a href="{% url 'model_tree' pk=model.pk %}"><button type="button" class="btn btn-secondary">Back</button></a>
+    </form>
+  </div>
+{% endblock %}

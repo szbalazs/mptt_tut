@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+{% load static %}
+{% load mptt_tags %}
+
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Genres</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="http://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'tutorial/master.css' %}">
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="card">
+        <div class="card-body">
+          <h2>My genres</h2>
+
+          {% full_tree_for_model tutorial.Genre as gs %}
+          {% for node, structure in gs|tree_info %}
+            {% if structure.new_level %}<ul {% ifequal node.parent None %}class="myUL"{% else %}class="nested"{% endifequal %}><li>{% else %}</li><li>{% endif %}
+            {% if not node.is_leaf_node %}<span class=caret>{% endif %}{{ node }}{% if not node.is_leaf_node %}</span>{% endif %}
+            {% for level in structure.closed_levels %}</li></ul>{% endfor %}
+          {% endfor %}
+          <ul>
+        </div>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="{% static 'tutorial/tut.js' %}">
+
+    </script>
+  </body>
+</html>
+
+
+  <!--{% full_tree_for_model tutorial.Genre as gs %}
+  {% for node, structure in gs|tree_info %}
+    {% if structure.new_level %}<ul><li>{% else %}</li><li>{% endif %}
+      <p>{{ node }}</p>
+      {% for level in structure.closed_levels %}</li></ul>{% endfor %}
+  {% endfor %}
+  <ul>
+  {% recursetree genres %}
+    <li>
+      {{ node.name }}
+      {% if not node.is_leaf_node %}
+        <ul class='children'>
+          {{ children }}
+        </ul>
+      {% endif %}
+    </li>
+  {% endrecursetree %}
+</ul>-->
